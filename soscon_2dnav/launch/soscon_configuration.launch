@@ -1,0 +1,12 @@
+<launch>
+	<node pkg="soscon_lidar" type="soscon_lidar.py" name="soscon_lidar" output="screen">
+	</node>
+
+	<node pkg="robot_setup_odom" type="odom_publisher" name="odom_publisher" output="screen">
+		<!--param name="odom_param" value="param_value" /-->
+	</node>
+
+	<node pkg="robot_setup_tf" type="tf_broadcaster" name="tf_broadcaster" output="screen">
+		<!--param name="transform_configuration_param" value="param_value" /-->
+	</node>
+</launch> 
