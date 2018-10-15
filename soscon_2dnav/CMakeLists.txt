@@ -9,8 +9,8 @@ project(soscon_2dnav)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   move_base
-  robot_setup_odom
-  robot_setup_tf
+  soscon_setup_odom
+  soscon_setup_tf
   roscpp
   sensor_msgs
   tf
@@ -108,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES soscon_2dnav
-#  CATKIN_DEPENDS move_base robot_setup_odom robot_setup_tf roscpp sensor_msgs tf
+#  CATKIN_DEPENDS move_base soscon_setup_odom soscon_setup_tf roscpp sensor_msgs tf
 #  DEPENDS system_lib
 )
 

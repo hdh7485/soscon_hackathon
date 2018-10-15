@@ -1,0 +1,3 @@
+[submodule "soscon_path_planning"]
+	path = soscon_path_planning
+	url = https://github.com/qwes98/soscon_path_planning.git
