@@ -1,4 +1,7 @@
 <launch>
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocker.launch/>
+
+    <node pkg="tf2_web_republisher" type="tf2_web_republisher" nema="tf2_web_republisher"/>
 	<node pkg="soscon_lidar" type="soscon_lidar.py" name="soscon_lidar" output="screen">
 	</node>
 
