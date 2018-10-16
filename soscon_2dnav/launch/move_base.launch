@@ -8,7 +8,8 @@
     <include file="$(find amcl)/examples/amcl_omni.launch" />
 
    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/> 
+    <param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/>
+    <!--param name="base_global_planner" value="navfn/NavfnROS"/-->
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find soscon_2dnav)/local_costmap_params.yaml" command="load" />
