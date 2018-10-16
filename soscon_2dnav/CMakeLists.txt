@@ -14,6 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   tf
+  rosbridge_server
+  tf2_web_republisher
 )
 
 ## System dependencies are found with CMake's conventions
