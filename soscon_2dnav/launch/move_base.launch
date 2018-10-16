@@ -1,20 +1,24 @@
 <launch>
+  <master auto="start"/>
 
-   <master auto="start"/>
- <!-- Run the map server --> 
-    <node name="map_server" pkg="map_server" type="map_server" args="$(find soscon_path_planning)/maps/SOSCON3_map.yaml"/>
+  <!-- Run the map server --> 
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find soscon_path_planning)/maps/SOSCON3_map.yaml"/>
 
- <!--- Run AMCL --> 
-    <include file="$(find amcl)/examples/amcl_omni.launch" />
+  <!-- Run AMCL --> 
+  <include file="$(find amcl)/examples/amcl_omni.launch" />
 
-   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/>
-    <!--param name="base_global_planner" value="navfn/NavfnROS"/-->
+  <!-- Run move base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <!--param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/-->
+    <param name="base_global_planner" value="navfn/NavfnROS"/>
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find soscon_2dnav)/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find soscon_2dnav)/global_costmap_params.yaml" command="load" /> 
     <rosparam file="$(find soscon_2dnav)/base_local_planner_params.yaml" command="load" />
- </node>
+  </node>
+
+  <!-- Run Rviz -->  
+  <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find soscon_2dnav)/soscon_rviz.cfg.rviz" />
 
 </launch> 
