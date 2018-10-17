@@ -8,7 +8,6 @@ import numpy as np
 import time
 
 class data_ob:
-    
     def __init__(self):
         self.env = Env()
         self.env.on_observation = self.on_observation
@@ -20,9 +19,10 @@ class data_ob:
         self.encoder = observation.encoder
         self.lidar = observation.lidar
         self.boundingbox = observation.boundingbox
+        self.delta = observation.delta
+        print(self.delta)
         
 class server_soc:
-    
     def __init__(self, host, port):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_address = (host, port)
@@ -33,21 +33,20 @@ class server_soc:
         print(sys.stderr, 'connecting from', self.client_address)
 
 if __name__ == '__main__':
-    
-    test = server_soc('',10101)
+    server = server_soc('192.168.24.203',11411)
+    ureal = data_ob()
+    print(ureal)
+
     while True:
+        print(sys.stderr,'waiting for a connection')
+        server.connect()
         try:
-            ureal = data_ob()
+            print('connected')
             while True:
-                print(sys.stderr,'waiting for a connection')
-                test.connect()
-                try:
-                    print('connected')
-                    while True:
-                        test.connection.sendall(array.array('f',ureal.lidar))
-                        time.sleep(ureal._event_timer_delay)
-                except socket.error as er:
-                    test.connection.close()
-                    print('disconnected')
-        except Exception as e:
-            print("error",e)
+                print(ureal.delta)
+                server.connection.sendall(array.array('f',ureal.lidar))
+                #test.connection.sendall(ureal.delta)
+                time.sleep(ureal._event_timer_delay)
+        except socket.error as er:
+            server.connection.close()
+            print('disconnected')
