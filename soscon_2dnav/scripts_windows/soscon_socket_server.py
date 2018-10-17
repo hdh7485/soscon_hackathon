@@ -4,7 +4,6 @@ from soscon.env import Env
 from soscon.status import Status
 import array
 
-
 import numpy as np
 import time
 import math
@@ -44,13 +43,16 @@ class server_soc:
 
 def send_msg(connection, data):
     while True:
-        x = data.lidar
-        x.append(data.delta.x)
-        x.append(data.delta.y)
-        x.append(data.compass)
-        connection.sendall(array.array('f', x))
-        time.sleep(data.delay)
-
+        try:
+            print("start")
+            x = data.lidar
+            x.append(data.delta.x)
+            x.append(data.delta.y)
+            x.append(data.compass)
+            connection.sendall(array.array('f', x))
+            time.sleep(data.delay)
+        except Exception as e:
+            print("error--->",e)
 
 # In[2]:
 
@@ -60,9 +62,11 @@ if __name__ == '__main__':
     
     try:
         
-        test = server_soc('',10004)
+        test = server_soc('0.0.0.0',10004)
         ureal = data_ob()
         test.connect()
+        #while True:
+        #    time.sleep(0.01)
         print("server connected")
 
     except Exception as e:
