@@ -60,7 +60,7 @@ if __name__ == '__main__':
     
     try:
         
-        test = server_soc('',10000)
+        test = server_soc('',10004)
         ureal = data_ob()
         test.connect()
         print("server connected")
