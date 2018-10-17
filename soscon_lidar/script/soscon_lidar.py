@@ -90,7 +90,7 @@ class socket_linker:
 
 
 if __name__ == '__main__':
-    sock = socket_linker('localhost', 10000, 5772)
+    sock = socket_linker('52.193.18.72', 10000, 5772)
     while not rospy.is_shutdown():
         time.sleep(0.05)
         sock.rec_data()

@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /Global Options1
+        - /Status1
         - /Path1
         - /Path2
       Splitter Ratio: 0.5
@@ -27,7 +28,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -276,7 +277,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: laser
+    Fixed Frame: map
     Frame Rate: 30
   Name: root
   Tools:
@@ -297,16 +298,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.60712218
+      Distance: 6.45513821
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.826437771
-        Y: 0.152794078
-        Z: 1.59141684
+        X: -1.05955744
+        Y: 1.41773248
+        Z: 1.63454473
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
@@ -333,5 +334,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1200
-  X: 541
-  Y: 213
+  X: 287
+  Y: 85
