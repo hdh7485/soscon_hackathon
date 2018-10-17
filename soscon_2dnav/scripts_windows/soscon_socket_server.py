@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-#from soscon.data.observation import Observation
-from IPython.display import clear_output
 import socket
 import sys
 from soscon.env import Env
