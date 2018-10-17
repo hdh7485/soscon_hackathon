@@ -18,7 +18,7 @@ class socket_linker:
         self.data_size = data_size
         self.server_address = (host, port)
         self.connect()
-        self.pub_lidar = rospy.Publisher('lidar', LaserScan, queue_size=1)
+        self.pub_lidar = rospy.Publisher('scan', LaserScan, queue_size=1)
         self.pub_delta = rospy.Publisher('delta', Twist, queue_size=1)
         self.num_readings = 360
         self.laser_frequency = 20.0
@@ -44,7 +44,7 @@ class socket_linker:
             print ('length of rdata :', len(self.rdata))
             rospy.loginfo('rec_data')
             scan = LaserScan()
-            scan.header.frame_id = 'lidar'
+            scan.header.frame_id = 'laser'
             scan_time = rospy.Time.now()
             scan.header.stamp = scan_time
             scan.angle_min = 0

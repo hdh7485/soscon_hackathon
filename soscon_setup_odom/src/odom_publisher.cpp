@@ -5,26 +5,30 @@
 
 double vx = 0.0;
 double vy = 0.0;
-double vth = 0.0;
+double compass = 0.0;
 
 
 void twistCallback(const geometry_msgs::Twist::ConstPtr& msg){
-  vx = msg.linear.x;
-  vy = msg.linear.y;
-  vth = msg.angular.z;
+  vx = msg->linear.x / 8;
+  vy = msg->linear.y / 8;
+  compass = -1 * msg->angular.z;
+  ROS_INFO("%f %f", vx, vy);
 }
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
 
   ros::NodeHandle n;
-  ros::Subscriber twist_sub = n.subscribe("twist", 50, twistCallback)
+  ros::Subscriber twist_sub = n.subscribe("delta", 1, twistCallback);
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
   tf::TransformBroadcaster odom_broadcaster;
 
   double x = 0.0;
   double y = 0.0;
   double th = 0.0;
+  double vth = 0.0;
+
+  double last_th = 0.0;
 
 /*
   double vx = 0.1;
@@ -36,7 +40,7 @@ int main(int argc, char** argv){
   current_time = ros::Time::now();
   last_time = ros::Time::now();
 
-  ros::Rate r(10.0);
+  ros::Rate r(50.0);
   while(n.ok()){
 
     ros::spinOnce();               // check for incoming messages
@@ -46,11 +50,15 @@ int main(int argc, char** argv){
     double dt = (current_time - last_time).toSec();
     double delta_x = (vx * cos(th) - vy * sin(th)) * dt;
     double delta_y = (vx * sin(th) + vy * cos(th)) * dt;
-    double delta_th = vth * dt;
+    ROS_INFO("%f %f %f %f", delta_x, delta_y, dt, th);
+    //double delta_th = vth * dt;
 
     x += delta_x;
     y += delta_y;
-    th += delta_th;
+    //th += delta_th;
+    last_th = th;
+    th = compass *3.141592/180;
+    vth = (th - last_th)/dt;
 
     //since all odometry is 6DOF we'll need a quaternion created from yaw
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(th);
@@ -91,6 +99,5 @@ int main(int argc, char** argv){
 
     last_time = current_time;
     r.sleep();
-    ros::spinOnce();
   }
 }

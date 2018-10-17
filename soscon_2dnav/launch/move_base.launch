@@ -8,8 +8,9 @@
   <include file="$(find amcl)/examples/amcl_omni.launch" />
 
   <!-- Run move base -->
+<!--
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <!--param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/-->
+    <param name="base_global_planner" value="global_planner/SosconGlobalPlanner"/>
     <param name="base_global_planner" value="navfn/NavfnROS"/>
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
     <rosparam file="$(find soscon_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -17,8 +18,9 @@
     <rosparam file="$(find soscon_2dnav)/global_costmap_params.yaml" command="load" /> 
     <rosparam file="$(find soscon_2dnav)/base_local_planner_params.yaml" command="load" />
   </node>
+-->
 
   <!-- Run Rviz -->  
-  <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find soscon_2dnav)/soscon_rviz.cfg.rviz" />
+  <!--node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find soscon_2dnav)/soscon_rviz.cfg.rviz" /-->
 
 </launch> 
