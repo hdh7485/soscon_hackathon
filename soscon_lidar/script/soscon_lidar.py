@@ -7,6 +7,7 @@ import math
 import time
 
 from sensor_msgs.msg import LaserScan
+from geometry_msgs.msg import Twist
 
 class socket_linker:
 
@@ -21,6 +22,7 @@ class socket_linker:
         self.connect()
         
         self.pub = rospy.Publisher('scan', LaserScan, queue_size=50)
+        self.twist_pub = rospy.Publisher('twist', Twist, queue_size=50)
         self.rate = rospy.Rate(20)
 
         self.num_readings = 360
@@ -42,14 +44,40 @@ class socket_linker:
                 print("cannot connect")
 		break
 
-    def rec_data(self):
+    def rec_delta(self):
         try:
+            #Receive delta data
+            self.delta_data = self.sock.recv(self.data_size)
+            if not self.delta_data:
+                print("broken connection")
+                self.disconnect()
+            print("length of rdata :",len(self.rdata))
+            #print(self.rdata)
+
+            rospy.loginf("Receive twist data")
+            twist = Twist()
+
+            twist.linear.x = delta_data[0]
+            twist.linear.y = delta_data[1]
+            twist.angular.z = delta_data[2]
+
+            rospy.loginfo("publish twist data")
+            self.twist_pub.publish(twist)
+
+        except Exception as ex:
+            print("Exception in twist_data", ex)
+            self.disconnect()   
+
+    def rec_lidar(self):
+        try:
+            #Receive lidar data
             self.rdata = self.sock.recv(self.data_size)
             if not self.rdata:
                 print("broken connection")
                 self.disconnect()
             print("length of rdata :",len(self.rdata))
             #print(self.rdata)
+
 
             rospy.loginfo("rec_data")
             scan = LaserScan()
@@ -76,13 +104,15 @@ class socket_linker:
             '''
             for i in reversed(range(self.num_readings)):
                 scan.ranges.append(self.ldata[i]/100.)
-            
 
-            self.pub_data(scan)    
-            
+            rospy.loginfo("publish lidar data")
+            self.pub.publish(scan)
+            #self.rate.sleep()
+                
         except Exception as ex:
-            print("Exception in rec_data", ex)
+            print("Exception in rec_lidar", ex)
             self.disconnect()   
+
     def pub_data(self, data):
         rospy.loginfo("publish data")
         self.pub.publish(data)
@@ -100,5 +130,6 @@ if __name__== '__main__':
     sock = socket_linker('192.168.24.203',10101,360*4*4)
     while not rospy.is_shutdown():
         time.sleep(0.05)
-        sock.rec_data()
+        sock.rec_lidar()
+        sock.rec_delta()
 
