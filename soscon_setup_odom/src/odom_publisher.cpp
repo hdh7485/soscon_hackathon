@@ -1,11 +1,24 @@
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
+#include <geometry_msgs/Twist.h>
+
+double vx = 0.0;
+double vy = 0.0;
+double vth = 0.0;
+
+
+void twistCallback(const geometry_msgs::Twist::ConstPtr& msg){
+  vx = msg.linear.x;
+  vy = msg.linear.y;
+  vth = msg.angular.z;
+}
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "odometry_publisher");
 
   ros::NodeHandle n;
+  ros::Subscriber twist_sub = n.subscribe("twist", 50, twistCallback)
   ros::Publisher odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
   tf::TransformBroadcaster odom_broadcaster;
 
@@ -18,10 +31,7 @@ int main(int argc, char** argv){
   double vy = -0.1;
   double vth = 0.1;
 */
-  double vx = 0.0;
-  double vy = 0.0;
-  double vth = 0.0;
-
+  
   ros::Time current_time, last_time;
   current_time = ros::Time::now();
   last_time = ros::Time::now();
@@ -81,5 +91,6 @@ int main(int argc, char** argv){
 
     last_time = current_time;
     r.sleep();
+    ros::spinOnce();
   }
 }

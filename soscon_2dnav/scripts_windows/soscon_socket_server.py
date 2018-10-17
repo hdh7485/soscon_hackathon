@@ -6,6 +6,7 @@ from soscon.status import Status
 import array
 import numpy as np
 import time
+import pickle
 
 class data_ob:
     def __init__(self):
@@ -20,7 +21,13 @@ class data_ob:
         self.lidar = observation.lidar
         self.boundingbox = observation.boundingbox
         self.delta = observation.delta
-        print(self.delta)
+        self.compass = observation.compass
+        # print(self.delta.x)
+        # lidar_data = [float(i) for i in ureal.lidar]
+        # lidar_data = ureal.lidar
+        # delta_data = ureal.delta
+        # compass_data = ureal.compass
+        # print([self.lidar, self.delta.x, self.delta.y, self.compass])
         
 class server_soc:
     def __init__(self, host, port):
@@ -28,12 +35,13 @@ class server_soc:
         self.server_address = (host, port)
         self.sock.bind(self.server_address)
         self.sock.listen(1)
+
     def connect(self):
         self.connection, self.client_address = self.sock.accept()
         print(sys.stderr, 'connecting from', self.client_address)
 
 if __name__ == '__main__':
-    server = server_soc('192.168.24.203',11411)
+    server = server_soc('',11411)
     ureal = data_ob()
     print(ureal)
 
@@ -43,9 +51,14 @@ if __name__ == '__main__':
         try:
             print('connected')
             while True:
-                print(ureal.delta)
-                server.connection.sendall(array.array('f',ureal.lidar))
-                #test.connection.sendall(ureal.delta)
+                # print(ureal.delta)
+                print([self.lidar, self.delta.x, self.delta.y, self.compass])
+                send_data = pickle.dumps([self.lidar, self.delta.x, self.delta.y, self.compass])
+                server.connection.sendall(send_data)
+
+                # server.connection.sendall(array.array('f',ureal.lidar))
+                # server.connection.sendall(ureal.delta)
+                # server.connection.sendall(ureal.compass)
                 time.sleep(ureal._event_timer_delay)
         except socket.error as er:
             server.connection.close()
