@@ -1,0 +1,14 @@
+<launch>
+
+	<include file="$(find soscon_2dnav)/launch/move.launch"/>
+	<include file="$(find soscon_2dnav)/launch/soscon_configuration.launch"/>
+
+	<node pkg="soscon_lidar" type="soscon_lidar.py" name="soscon_lidar_"/>
+	<include file="$(find laser_scan_matcher)/demo/ss.launch"/>
+
+  <arg name="map_file" default="$(find soscon_2dnav)/mymap.yaml"/>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+</launch>

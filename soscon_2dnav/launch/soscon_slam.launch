@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find soscon_2dnav)/launch/soscon_configuration.launch"/>
+  <include file="$(find hector_mapping)/launch/soscon_mapping.launch"/>
+  <include file="$(find soscon_2dnav)/launch/move_base.launch"/>
+  <include file="$(find explore_lite)/launch/explore.launch"/>
+
+</launch>
